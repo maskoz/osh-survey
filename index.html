@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OSH Customer Satisfaction Survey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa;
+            color: #2d3748;
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        .survey-container {
+            max-width: 680px;
+            margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #2c5282 0%, #2b6cb0 100%);
+            color: white;
+            padding: 32px 24px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .header p {
+            font-size: 15px;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        /* Progress indicator */
+        .progress-container {
+            background: white;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e2e8f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3182ce, #2c5282);
+            width: 0%;
+            transition: width 0.4s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* Form content */
+        .form-content {
+            padding: 32px 24px;
+        }
+
+        .question-group {
+            margin-bottom: 48px;
+            opacity: 0;
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .question-group:nth-child(1) { animation-delay: 0.1s; }
+        .question-group:nth-child(2) { animation-delay: 0.15s; }
+        .question-group:nth-child(3) { animation-delay: 0.2s; }
+        .question-group:nth-child(4) { animation-delay: 0.25s; }
+        .question-group:nth-child(5) { animation-delay: 0.3s; }
+        .question-group:nth-child(6) { animation-delay: 0.35s; }
+        .question-group:nth-child(7) { animation-delay: 0.4s; }
+        .question-group:nth-child(8) { animation-delay: 0.45s; }
+        .question-group:nth-child(9) { animation-delay: 0.5s; }
+        .question-group:nth-child(10) { animation-delay: 0.55s; }
+
+        .question-label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a202c;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .question-number {
+            display: inline-block;
+            background: #edf2f7;
+            color: #2c5282;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            font-size: 14px;
+            margin-right: 10px;
+            font-weight: 700;
+        }
+
+        .required {
+            color: #e53e3e;
+            margin-left: 4px;
+        }
+
+        /* Dropdown/Select styling */
+        .select-wrapper {
+            position: relative;
+            margin-top: 12px;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 15px;
+            font-family: inherit;
+            color: #2d3748;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            appearance: none;
+            transition: all 0.2s ease;
+            font-weight: 500;
+        }
+
+        select:hover {
+            border-color: #cbd5e0;
+            background: #edf2f7;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #3182ce;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        .select-wrapper::after {
+            content: '▼';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #4a5568;
+            font-size: 12px;
+        }
+
+        /* Rating buttons (modern pill style) */
+        .rating-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .rating-option {
+            position: relative;
+        }
+
+        .rating-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .rating-label {
+            display: block;
+            padding: 14px 12px;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 13px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .rating-option input[type="radio"]:checked + .rating-label {
+            background: #3182ce;
+            border-color: #3182ce;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+        }
+
+        .rating-option:hover .rating-label {
+            border-color: #3182ce;
+            background: #ebf8ff;
+        }
+
+        .rating-option input[type="radio"]:checked + .rating-label:hover {
+            background: #2c5282;
+            border-color: #2c5282;
+        }
+
+        /* Checkbox options (for multi-select) */
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .checkbox-option {
+            position: relative;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .checkbox-label {
+            display: block;
+            padding: 14px 16px;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            font-weight: 500;
+            color: #4a5568;
+            text-align: center;
+        }
+
+        .checkbox-option input[type="checkbox"]:checked + .checkbox-label {
+            background: #3182ce;
+            border-color: #3182ce;
+            color: white;
+            box-shadow: 0 2px 8px rgba(49, 130, 206, 0.3);
+        }
+
+        .checkbox-option:hover .checkbox-label {
+            border-color: #3182ce;
+            background: #ebf8ff;
+        }
+
+        .checkbox-option input[type="checkbox"]:checked + .checkbox-label:hover {
+            background: #2c5282;
+            border-color: #2c5282;
+        }
+
+        /* Text input and textarea */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 15px;
+            font-family: inherit;
+            color: #2d3748;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            transition: all 0.2s ease;
+            margin-top: 12px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        input[type="text"]:hover,
+        input[type="email"]:hover,
+        input[type="tel"]:hover,
+        textarea:hover {
+            border-color: #cbd5e0;
+            background: #edf2f7;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3182ce;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        ::placeholder {
+            color: #a0aec0;
+        }
+
+        /* Other option input */
+        .other-input-wrapper {
+            margin-top: 12px;
+            display: none;
+        }
+
+        .other-input-wrapper.active {
+            display: block;
+        }
+
+        /* Yes/No toggle */
+        .yes-no-toggle {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .toggle-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .toggle-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-label {
+            display: block;
+            padding: 14px;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 15px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .toggle-option input[type="radio"]:checked + .toggle-label {
+            background: #3182ce;
+            border-color: #3182ce;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.3);
+        }
+
+        .toggle-option:hover .toggle-label {
+            border-color: #3182ce;
+            background: #ebf8ff;
+        }
+
+        .toggle-option input[type="radio"]:checked + .toggle-label:hover {
+            background: #2c5282;
+            border-color: #2c5282;
+        }
+
+        /* Contact info section */
+        .contact-section {
+            background: #f7fafc;
+            padding: 24px;
+            border-radius: 16px;
+            margin-top: 48px;
+        }
+
+        .contact-section h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 20px;
+        }
+
+        .contact-field {
+            margin-bottom: 16px;
+        }
+
+        .contact-field:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-field label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+        }
+
+        /* Submit button */
+        .submit-section {
+            margin-top: 48px;
+            text-align: center;
+        }
+
+        .submit-btn {
+            width: 100%;
+            max-width: 400px;
+            padding: 18px 32px;
+            background: linear-gradient(135deg, #2c5282 0%, #2b6cb0 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(44, 82, 130, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(44, 82, 130, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Success/Error messages */
+        .message {
+            display: none;
+            padding: 16px 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .message.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .message.success {
+            background: #c6f6d5;
+            color: #22543d;
+            border: 2px solid #9ae6b4;
+        }
+
+        .message.error {
+            background: #fed7d7;
+            color: #742a2a;
+            border: 2px solid #fc8181;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Helper text */
+        .helper-text {
+            font-size: 13px;
+            color: #718096;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            .header {
+                padding: 24px 20px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .form-content {
+                padding: 24px 20px;
+            }
+
+            .rating-options {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .question-group {
+                margin-bottom: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="survey-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Customer Satisfaction Survey</h1>
+            <p>The OSH Consultative Services Bureau values your feedback. This survey takes about 3-4 minutes to complete.</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0% Complete</div>
+        </div>
+
+        <!-- Form -->
+        <form id="surveyForm" class="form-content">
+            
+            <!-- Question 1: Consultant Selection -->
+            <div class="question-group" data-question="1">
+                <label class="question-label">
+                    <span class="question-number">1</span>
+                    Which consultant provided service to you? <span class="required">*</span>
+                </label>
+                <div class="select-wrapper">
+                    <select id="consultant" name="consultant" required>
+                        <option value="">-- Select your consultant --</option>
+                        <!-- ========================================== -->
+                        <!-- CONSULTANT LIST - Update as staff changes -->
+                        <!-- Format: value="ID|Full Name|email@labor.nc.gov" -->
+                        <!-- ========================================== -->
+                        <option value="N6796|Buddy Amerson|buddy.amerson@labor.nc.gov">Buddy Amerson (N6796)</option>
+                        <option value="S0077|Kirby Atwood|kirby.atwood@labor.nc.gov">Kirby Atwood (S0077)</option>
+                        <option value="Z3637|Blair Byrd|blair.byrd@labor.nc.gov">Blair Byrd (Z3637)</option>
+                        <option value="X1470|Twanette Haiser|twanette.haiser@labor.nc.gov">Twanette Haiser (X1470)</option>
+                        <option value="Q0750|Chris Jasion|chris.jasion@labor.nc.gov">Chris Jasion (Q0750)</option>
+                        <option value="C1964|Lori Kees|lori.kees@labor.nc.gov">Lori Kees (C1964)</option>
+                        <option value="B6687|Jiles Manning|jiles.manning@labor.nc.gov">Jiles Manning (B6687)</option>
+                        <option value="K1530|Lee McKinney|lee.mckinney@labor.nc.gov">Lee McKinney (K1530)</option>
+                        <option value="F8082|Margaret Ness|margaret.ness@labor.nc.gov">Margaret Ness (F8082)</option>
+                        <option value="H5009|Abigael Newton|abigael.newton@labor.nc.gov">Abigael Newton (H5009)</option>
+                        <option value="K4809|Bruce Pearson|bruce.pearson@labor.nc.gov">Bruce Pearson (K4809)</option>
+                        <option value="D2848|Eric Smith|eric.smith@labor.nc.gov">Eric Smith (D2848)</option>
+                        <option value="N8684|Mark Taylor|mark.taylor@labor.nc.gov">Mark Taylor (N8684)</option>
+                        <option value="Y8949|Gary Thorpe|gary.thorpe@labor.nc.gov">Gary Thorpe (Y8949)</option>
+                        <option value="Y5788|Stephanie White|stephanie.white@labor.nc.gov">Stephanie White (Y5788)</option>
+                        <option value="R2121|Jim Zepede|jim.zepede@labor.nc.gov">Jim Zepede (R2121)</option>
+                        <!-- ========================================== -->
+                        <!-- To add/remove consultants, edit the options above -->
+                        <!-- ========================================== -->
+                    </select>
+                </div>
+                <p class="helper-text">Select the safety consultant who visited your workplace</p>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="question-group" data-question="2">
+                <label class="question-label">
+                    <span class="question-number">2</span>
+                    The consultative service satisfied my request and met my expectations. <span class="required">*</span>
+                </label>
+                <div class="rating-options">
+                    <div class="rating-option">
+                        <input type="radio" id="q2_strongly_agree" name="q2_satisfaction" value="Strongly Agree" required>
+                        <label for="q2_strongly_agree" class="rating-label">Strongly Agree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q2_agree" name="q2_satisfaction" value="Agree">
+                        <label for="q2_agree" class="rating-label">Agree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q2_disagree" name="q2_satisfaction" value="Disagree">
+                        <label for="q2_disagree" class="rating-label">Disagree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q2_strongly_disagree" name="q2_satisfaction" value="Strongly Disagree">
+                        <label for="q2_strongly_disagree" class="rating-label">Strongly Disagree</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="question-group" data-question="3">
+                <label class="question-label">
+                    <span class="question-number">3</span>
+                    The consultative service will help me improve my workplace safety and health program. <span class="required">*</span>
+                </label>
+                <div class="rating-options">
+                    <div class="rating-option">
+                        <input type="radio" id="q3_strongly_agree" name="q3_improvement" value="Strongly Agree" required>
+                        <label for="q3_strongly_agree" class="rating-label">Strongly Agree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q3_agree" name="q3_improvement" value="Agree">
+                        <label for="q3_agree" class="rating-label">Agree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q3_disagree" name="q3_improvement" value="Disagree">
+                        <label for="q3_disagree" class="rating-label">Disagree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q3_strongly_disagree" name="q3_improvement" value="Strongly Disagree">
+                        <label for="q3_strongly_disagree" class="rating-label">Strongly Disagree</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="question-group" data-question="4">
+                <label class="question-label">
+                    <span class="question-number">4</span>
+                    What aspect of the service did you like best or find most helpful? <span class="required">*</span>
+                </label>
+                <p class="helper-text">Select all that apply</p>
+                <div class="checkbox-grid">
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="aspect_hazard_id" name="q4_aspects" value="Hazard Identification">
+                        <label for="aspect_hazard_id" class="checkbox-label">Hazard Identification</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="aspect_sample" name="q4_aspects" value="Sample Programs">
+                        <label for="aspect_sample" class="checkbox-label">Sample Programs</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="aspect_mgmt" name="q4_aspects" value="Safety & Health Management">
+                        <label for="aspect_mgmt" class="checkbox-label">Safety & Health Management</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="aspect_correction" name="q4_aspects" value="Hazard Correction Advice">
+                        <label for="aspect_correction" class="checkbox-label">Hazard Correction Advice</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="aspect_training" name="q4_aspects" value="Informal Training">
+                        <label for="aspect_training" class="checkbox-label">Informal Training</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" id="aspect_other" name="q4_aspects" value="Other">
+                        <label for="aspect_other" class="checkbox-label">Other</label>
+                    </div>
+                </div>
+                <div class="other-input-wrapper" id="otherAspectWrapper">
+                    <input type="text" id="q4_other_text" name="q4_other_text" placeholder="Please specify...">
+                </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="question-group" data-question="5">
+                <label class="question-label">
+                    <span class="question-number">5</span>
+                    The recommendations in the written report were clear and easy to understand. <span class="required">*</span>
+                </label>
+                <div class="rating-options">
+                    <div class="rating-option">
+                        <input type="radio" id="q5_strongly_agree" name="q5_clarity" value="Strongly Agree" required>
+                        <label for="q5_strongly_agree" class="rating-label">Strongly Agree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q5_agree" name="q5_clarity" value="Agree">
+                        <label for="q5_agree" class="rating-label">Agree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q5_disagree" name="q5_clarity" value="Disagree">
+                        <label for="q5_disagree" class="rating-label">Disagree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q5_strongly_disagree" name="q5_clarity" value="Strongly Disagree">
+                        <label for="q5_strongly_disagree" class="rating-label">Strongly Disagree</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 6 -->
+            <div class="question-group" data-question="6">
+                <label class="question-label">
+                    <span class="question-number">6</span>
+                    The correction due dates were discussed by the Consultant and were agreed upon. <span class="required">*</span>
+                </label>
+                <div class="rating-options">
+                    <div class="rating-option">
+                        <input type="radio" id="q6_strongly_agree" name="q6_duedates" value="Strongly Agree" required>
+                        <label for="q6_strongly_agree" class="rating-label">Strongly Agree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q6_agree" name="q6_duedates" value="Agree">
+                        <label for="q6_agree" class="rating-label">Agree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q6_disagree" name="q6_duedates" value="Disagree">
+                        <label for="q6_disagree" class="rating-label">Disagree</label>
+                    </div>
+                    <div class="rating-option">
+                        <input type="radio" id="q6_strongly_disagree" name="q6_duedates" value="Strongly Disagree">
+                        <label for="q6_strongly_disagree" class="rating-label">Strongly Disagree</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question 7 -->
+            <div class="question-group" data-question="7">
+                <label class="question-label">
+                    <span class="question-number">7</span>
+                    What one thing could we do or add to improve the consultative service?
+                </label>
+                <textarea id="q7_improvement" name="q7_improvement" placeholder="Share your suggestions here..."></textarea>
+            </div>
+
+            <!-- Question 8 -->
+            <div class="question-group" data-question="8">
+                <label class="question-label">
+                    <span class="question-number">8</span>
+                    Would you recommend the consultative service to other small employers? <span class="required">*</span>
+                </label>
+                <div class="yes-no-toggle">
+                    <div class="toggle-option">
+                        <input type="radio" id="recommend_yes" name="q8_recommend" value="Yes" required>
+                        <label for="recommend_yes" class="toggle-label">Yes</label>
+                    </div>
+                    <div class="toggle-option">
+                        <input type="radio" id="recommend_no" name="q8_recommend" value="No">
+                        <label for="recommend_no" class="toggle-label">No</label>
+                    </div>
+                </div>
+                
+                <!-- Conditional fields based on Yes/No -->
+                <div id="recommendYesSection" style="display: none; margin-top: 20px;">
+                    <label class="question-label" style="font-size: 14px;">Do you have a specific company in mind that we may contact?</label>
+                    <input type="text" id="q8_referral" name="q8_referral" placeholder="Business Name / Employee Name / Phone">
+                </div>
+                
+                <div id="recommendNoSection" style="display: none; margin-top: 20px;">
+                    <label class="question-label" style="font-size: 14px;">Please let us know why you would not recommend us:</label>
+                    <textarea id="q8_why_not" name="q8_why_not" placeholder="Your feedback helps us improve..." style="margin-top: 8px;"></textarea>
+                </div>
+            </div>
+
+            <!-- Question 9 -->
+            <div class="question-group" data-question="9">
+                <label class="question-label">
+                    <span class="question-number">9</span>
+                    Other Comments
+                </label>
+                <textarea id="q9_comments" name="q9_comments" placeholder="Any additional feedback you'd like to share..."></textarea>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="contact-section">
+                <h3>Your Contact Information</h3>
+                
+                <div class="contact-field">
+                    <label for="contact_name">Your Name / Title <span class="required">*</span></label>
+                    <input type="text" id="contact_name" name="contact_name" placeholder="John Doe, Safety Manager" required>
+                </div>
+
+                <div class="contact-field">
+                    <label for="contact_phone">Phone Number <span class="required">*</span></label>
+                    <input type="tel" id="contact_phone" name="contact_phone" placeholder="(919) 555-0123" required>
+                </div>
+
+                <div class="contact-field">
+                    <label for="contact_email">Email Address <span class="required">*</span></label>
+                    <input type="email" id="contact_email" name="contact_email" placeholder="your.email@company.com" required>
+                </div>
+
+                <div class="contact-field">
+                    <label for="establishment_name">Your Establishment Name <span class="required">*</span></label>
+                    <input type="text" id="establishment_name" name="establishment_name" placeholder="ABC Manufacturing Company" required>
+                </div>
+
+                <div class="contact-field">
+                    <label for="establishment_address">Your Establishment Address <span class="required">*</span></label>
+                    <input type="text" id="establishment_address" name="establishment_address" placeholder="123 Main St, Charlotte, NC 28202" required>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="submit-section">
+                <button type="submit" class="submit-btn" id="submitBtn">Submit Survey</button>
+                <div class="message success" id="successMessage">
+                    ✓ Thank you! Your survey has been submitted successfully.
+                </div>
+                <div class="message error" id="errorMessage">
+                    ✗ There was an error submitting your survey. Please try again.
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        // ============================================================
+        // CONFIGURATION SECTION - EASILY UPDATE THESE VALUES
+        // ============================================================
+        
+        // Main email address where ALL survey responses should be sent
+        const MAIN_REVIEW_EMAIL = 'dol.consultationmail@labor.nc.gov';
+        
+        // Subject line for the email
+        const EMAIL_SUBJECT = 'OSH Customer Satisfaction Survey Response';
+        
+        // ============================================================
+        // END CONFIGURATION SECTION
+        // ============================================================
+
+        // Progress tracking
+        const form = document.getElementById('surveyForm');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const totalQuestions = 9;
+
+        // Update progress bar
+        function updateProgress() {
+            let answered = 0;
+            
+            // Check each question group
+            const questions = document.querySelectorAll('.question-group');
+            questions.forEach((questionGroup, index) => {
+                const questionNum = index + 1;
+                
+                if (questionNum === 1) {
+                    // Consultant dropdown
+                    const select = questionGroup.querySelector('select');
+                    if (select && select.value) answered++;
+                }
+                else if ([2, 3, 5, 6].includes(questionNum)) {
+                    // Radio button questions
+                    const radios = questionGroup.querySelectorAll('input[type="radio"]');
+                    const checked = Array.from(radios).some(r => r.checked);
+                    if (checked) answered++;
+                }
+                else if (questionNum === 4) {
+                    // Checkbox question
+                    const checkboxes = questionGroup.querySelectorAll('input[type="checkbox"]');
+                    const checked = Array.from(checkboxes).some(c => c.checked);
+                    if (checked) answered++;
+                }
+                else if (questionNum === 8) {
+                    // Recommend yes/no
+                    const radios = questionGroup.querySelectorAll('input[type="radio"]');
+                    const checked = Array.from(radios).some(r => r.checked);
+                    if (checked) answered++;
+                }
+                // Questions 7 and 9 are optional text fields, don't count for progress
+            });
+
+            // Add contact info (5 required fields)
+            const contactName = document.getElementById('contact_name').value;
+            const contactPhone = document.getElementById('contact_phone').value;
+            const contactEmail = document.getElementById('contact_email').value;
+            const establishmentName = document.getElementById('establishment_name').value;
+            const establishmentAddress = document.getElementById('establishment_address').value;
+            
+            let contactFieldsFilled = 0;
+            if (contactName) contactFieldsFilled += 0.2;
+            if (contactPhone) contactFieldsFilled += 0.2;
+            if (contactEmail) contactFieldsFilled += 0.2;
+            if (establishmentName) contactFieldsFilled += 0.2;
+            if (establishmentAddress) contactFieldsFilled += 0.2;
+
+            const totalAnswered = answered + contactFieldsFilled;
+            const percentage = Math.round((totalAnswered / (totalQuestions + 1)) * 100);
+            
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = percentage + '% Complete';
+        }
+
+        // Add event listeners to all form inputs
+        const allInputs = form.querySelectorAll('input, select, textarea');
+        allInputs.forEach(input => {
+            input.addEventListener('change', updateProgress);
+            input.addEventListener('input', updateProgress);
+        });
+
+        // Show/hide "Other" text input for Question 4
+        const otherCheckbox = document.getElementById('aspect_other');
+        const otherWrapper = document.getElementById('otherAspectWrapper');
+        
+        otherCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                otherWrapper.classList.add('active');
+            } else {
+                otherWrapper.classList.remove('active');
+                document.getElementById('q4_other_text').value = '';
+            }
+        });
+
+        // Show/hide sections based on recommend Yes/No
+        const recommendYes = document.getElementById('recommend_yes');
+        const recommendNo = document.getElementById('recommend_no');
+        const yesSection = document.getElementById('recommendYesSection');
+        const noSection = document.getElementById('recommendNoSection');
+
+        recommendYes.addEventListener('change', function() {
+            if (this.checked) {
+                yesSection.style.display = 'block';
+                noSection.style.display = 'none';
+            }
+        });
+
+        recommendNo.addEventListener('change', function() {
+            if (this.checked) {
+                yesSection.style.display = 'none';
+                noSection.style.display = 'block';
+            }
+        });
+
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const successMsg = document.getElementById('successMessage');
+            const errorMsg = document.getElementById('errorMessage');
+            
+            // Disable submit button
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            // Get selected consultant info
+            const consultantSelect = document.getElementById('consultant');
+            const consultantValue = consultantSelect.value;
+            const consultantData = consultantValue.split('|');
+            const consultantID = consultantData[0];
+            const consultantName = consultantData[1];
+            const consultantEmail = consultantData[2];
+            
+            // Collect form data
+            const formData = {
+                consultant_id: consultantID,
+                consultant_name: consultantName,
+                consultant_email: consultantEmail,
+                q2_satisfaction: form.q2_satisfaction.value,
+                q3_improvement: form.q3_improvement.value,
+                q4_aspects: Array.from(form.querySelectorAll('input[name="q4_aspects"]:checked')).map(cb => cb.value).join(', '),
+                q4_other: document.getElementById('q4_other_text').value,
+                q5_clarity: form.q5_clarity.value,
+                q6_duedates: form.q6_duedates.value,
+                q7_improvement: document.getElementById('q7_improvement').value,
+                q8_recommend: form.q8_recommend.value,
+                q8_referral: document.getElementById('q8_referral').value,
+                q8_why_not: document.getElementById('q8_why_not').value,
+                q9_comments: document.getElementById('q9_comments').value,
+                contact_name: document.getElementById('contact_name').value,
+                contact_phone: document.getElementById('contact_phone').value,
+                contact_email: document.getElementById('contact_email').value,
+                establishment_name: document.getElementById('establishment_name').value,
+                establishment_address: document.getElementById('establishment_address').value,
+                submission_date: new Date().toLocaleString()
+            };
+            
+            // Create email body
+            const emailBody = createEmailBody(formData);
+            
+            // Create dynamic subject line with consultant ID
+            const dynamicSubject = `${EMAIL_SUBJECT} - ${consultantID}`;
+            
+            // Create mailto link for central mailbox only
+            const mailtoLink = `mailto:${MAIN_REVIEW_EMAIL}?subject=${encodeURIComponent(dynamicSubject)}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Open email draft
+            window.open(mailtoLink, '_blank');
+            
+            // Show success message
+            successMsg.classList.add('show');
+            
+            // Re-enable button after a delay
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit Another Survey';
+                
+                // Optionally reset form
+                // form.reset();
+                // updateProgress();
+            }, 2000);
+        });
+
+        // Create formatted email body
+        function createEmailBody(data) {
+            let body = `OSH CUSTOMER SATISFACTION SURVEY RESPONSE\n`;
+            body += `${'='.repeat(60)}\n\n`;
+            
+            body += `SUBMISSION DATE: ${data.submission_date}\n\n`;
+            
+            body += `CONSULTANT INFORMATION:\n`;
+            body += `Consultant: ${data.consultant_name} (${data.consultant_id})\n`;
+            body += `Email: ${data.consultant_email}\n\n`;
+            
+            body += `${'='.repeat(60)}\n\n`;
+            
+            body += `SURVEY RESPONSES:\n\n`;
+            
+            body += `Q2. The consultative service satisfied my request and met my expectations.\n`;
+            body += `Answer: ${data.q2_satisfaction}\n\n`;
+            
+            body += `Q3. The consultative service will help me improve my workplace safety and health program.\n`;
+            body += `Answer: ${data.q3_improvement}\n\n`;
+            
+            body += `Q4. What aspect of the service did you like best or find most helpful?\n`;
+            body += `Answer: ${data.q4_aspects}`;
+            if (data.q4_other) body += ` - Other: ${data.q4_other}`;
+            body += `\n\n`;
+            
+            body += `Q5. The recommendations in the written report were clear and easy to understand.\n`;
+            body += `Answer: ${data.q5_clarity}\n\n`;
+            
+            body += `Q6. The correction due dates were discussed by the Consultant and were agreed upon.\n`;
+            body += `Answer: ${data.q6_duedates}\n\n`;
+            
+            body += `Q7. What one thing could we do or add to improve the consultative service?\n`;
+            body += `Answer: ${data.q7_improvement || '(No response)'}\n\n`;
+            
+            body += `Q8. Would you recommend the consultative service to other small employers?\n`;
+            body += `Answer: ${data.q8_recommend}\n`;
+            if (data.q8_referral) {
+                body += `Referral: ${data.q8_referral}\n`;
+            }
+            if (data.q8_why_not) {
+                body += `Reason for not recommending: ${data.q8_why_not}\n`;
+            }
+            body += `\n`;
+            
+            body += `Q9. Other Comments\n`;
+            body += `Answer: ${data.q9_comments || '(No response)'}\n\n`;
+            
+            body += `${'='.repeat(60)}\n\n`;
+            
+            body += `CUSTOMER CONTACT INFORMATION:\n\n`;
+            body += `Name/Title: ${data.contact_name}\n`;
+            body += `Phone: ${data.contact_phone}\n`;
+            body += `Email: ${data.contact_email}\n`;
+            body += `Establishment: ${data.establishment_name}\n`;
+            body += `Address: ${data.establishment_address}\n`;
+            
+            return body;
+        }
+
+        // Initialize progress on page load
+        updateProgress();
+    </script>
+</body>
+</html>
