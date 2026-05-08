@@ -556,7 +556,7 @@
             <div class="question-group" data-question="1">
                 <label class="question-label">
                     <span class="question-number">1</span>
-                    Which consultant provided service to you? <span class="required">*</span>
+                    Which consultant(s) provided service to you? <span class="required">*</span>
                 </label>
                 <div class="select-wrapper">
                     <select id="consultant" name="consultant" required>
@@ -566,20 +566,27 @@
                         <!-- Format: value="ID|Full Name|email@labor.nc.gov" -->
                         <!-- ========================================== -->
                         <option value="N6796|Buddy Amerson|buddy.amerson@labor.nc.gov">Buddy Amerson (N6796)</option>
+                        <option value="O1559|Fleda Anderson|fleda.anderson@labor.nc.gov">Fleda Anderson (O1559)</option>
                         <option value="S0077|Kirby Atwood|kirby.atwood@labor.nc.gov">Kirby Atwood (S0077)</option>
                         <option value="Z3637|Blair Byrd|blair.byrd@labor.nc.gov">Blair Byrd (Z3637)</option>
+                        <option value="S8326|Shirley Curtis|shirley.curtis@labor.nc.gov">Shirley Curtis (S8326)</option>
+                        <option value="C4007|Nelson Edwards|nelson.edwards@labor.nc.gov">Nelson Edwards (C4007)</option>
                         <option value="X1470|Twanette Haiser|twanette.haiser@labor.nc.gov">Twanette Haiser (X1470)</option>
+                        <option value="N9104|Jackie Haley|jackie.haley@labor.nc.gov">Jackie Haley (N9104)</option>
                         <option value="Q0750|Chris Jasion|chris.jasion@labor.nc.gov">Chris Jasion (Q0750)</option>
                         <option value="C1964|Lori Kees|lori.kees@labor.nc.gov">Lori Kees (C1964)</option>
+                        <option value="W4829|Mark Luniewski|mark.luniewski@labor.nc.gov">Mark Luniewski (W4829)</option>
                         <option value="B6687|Jiles Manning|jiles.manning@labor.nc.gov">Jiles Manning (B6687)</option>
                         <option value="K1530|Lee McKinney|lee.mckinney@labor.nc.gov">Lee McKinney (K1530)</option>
                         <option value="F8082|Margaret Ness|margaret.ness@labor.nc.gov">Margaret Ness (F8082)</option>
                         <option value="H5009|Abigael Newton|abigael.newton@labor.nc.gov">Abigael Newton (H5009)</option>
+                        <option value="A0160|Kevin Obarr|kevin.obarr@labor.nc.gov">Kevin Obarr (A0160)</option>
                         <option value="K4809|Bruce Pearson|bruce.pearson@labor.nc.gov">Bruce Pearson (K4809)</option>
                         <option value="D2848|Eric Smith|eric.smith@labor.nc.gov">Eric Smith (D2848)</option>
                         <option value="N8684|Mark Taylor|mark.taylor@labor.nc.gov">Mark Taylor (N8684)</option>
                         <option value="Y8949|Gary Thorpe|gary.thorpe@labor.nc.gov">Gary Thorpe (Y8949)</option>
                         <option value="Y5788|Stephanie White|stephanie.white@labor.nc.gov">Stephanie White (Y5788)</option>
+                        <option value="L9071|Frank Wiesner|frank.wiesner@labor.nc.gov">Frank Wiesner (L9071)</option>
                         <option value="R2121|Jim Zepede|jim.zepede@labor.nc.gov">Jim Zepede (R2121)</option>
                         <!-- ========================================== -->
                         <!-- To add/remove consultants, edit the options above -->
@@ -587,17 +594,82 @@
                     </select>
                 </div>
                 <p class="helper-text">Select the safety consultant who visited your workplace</p>
+                
+                <!-- Add Second Consultant Button -->
+                <div style="margin-top: 15px; text-align: center;">
+                    <button type="button" id="addConsultantBtn" onclick="toggleSecondConsultant()" 
+                        style="padding: 10px 20px; background: #edf2f7; color: #2c5282; border: 2px solid #cbd5e0; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 14px; transition: all 0.2s;">
+                        + Add Another Consultant
+                    </button>
+                </div>
+                
+                <!-- Second Consultant Dropdown (Hidden by default) -->
+                <div id="secondConsultantWrapper" style="display: none; margin-top: 20px;">
+                    <label class="question-label" style="font-size: 14px;">
+                        Second Consultant (if applicable)
+                    </label>
+                    <div class="select-wrapper">
+                        <select id="consultant2" name="consultant2">
+                            <option value="">-- Select second consultant --</option>
+                            <option value="N6796|Buddy Amerson|buddy.amerson@labor.nc.gov">Buddy Amerson (N6796)</option>
+                            <option value="O1559|Fleda Anderson|fleda.anderson@labor.nc.gov">Fleda Anderson (O1559)</option>
+                            <option value="S0077|Kirby Atwood|kirby.atwood@labor.nc.gov">Kirby Atwood (S0077)</option>
+                            <option value="Z3637|Blair Byrd|blair.byrd@labor.nc.gov">Blair Byrd (Z3637)</option>
+                            <option value="S8326|Shirley Curtis|shirley.curtis@labor.nc.gov">Shirley Curtis (S8326)</option>
+                            <option value="C4007|Nelson Edwards|nelson.edwards@labor.nc.gov">Nelson Edwards (C4007)</option>
+                            <option value="X1470|Twanette Haiser|twanette.haiser@labor.nc.gov">Twanette Haiser (X1470)</option>
+                            <option value="N9104|Jackie Haley|jackie.haley@labor.nc.gov">Jackie Haley (N9104)</option>
+                            <option value="Q0750|Chris Jasion|chris.jasion@labor.nc.gov">Chris Jasion (Q0750)</option>
+                            <option value="C1964|Lori Kees|lori.kees@labor.nc.gov">Lori Kees (C1964)</option>
+                            <option value="W4829|Mark Luniewski|mark.luniewski@labor.nc.gov">Mark Luniewski (W4829)</option>
+                            <option value="B6687|Jiles Manning|jiles.manning@labor.nc.gov">Jiles Manning (B6687)</option>
+                            <option value="K1530|Lee McKinney|lee.mckinney@labor.nc.gov">Lee McKinney (K1530)</option>
+                            <option value="F8082|Margaret Ness|margaret.ness@labor.nc.gov">Margaret Ness (F8082)</option>
+                            <option value="H5009|Abigael Newton|abigael.newton@labor.nc.gov">Abigael Newton (H5009)</option>
+                            <option value="A0160|Kevin Obarr|kevin.obarr@labor.nc.gov">Kevin Obarr (A0160)</option>
+                            <option value="K4809|Bruce Pearson|bruce.pearson@labor.nc.gov">Bruce Pearson (K4809)</option>
+                            <option value="D2848|Eric Smith|eric.smith@labor.nc.gov">Eric Smith (D2848)</option>
+                            <option value="N8684|Mark Taylor|mark.taylor@labor.nc.gov">Mark Taylor (N8684)</option>
+                            <option value="Y8949|Gary Thorpe|gary.thorpe@labor.nc.gov">Gary Thorpe (Y8949)</option>
+                            <option value="Y5788|Stephanie White|stephanie.white@labor.nc.gov">Stephanie White (Y5788)</option>
+                            <option value="L9071|Frank Wiesner|frank.wiesner@labor.nc.gov">Frank Wiesner (L9071)</option>
+                            <option value="R2121|Jim Zepede|jim.zepede@labor.nc.gov">Jim Zepede (R2121)</option>
+                        </select>
+                    </div>
+                    <button type="button" onclick="removeSecondConsultant()" 
+                        style="margin-top: 10px; padding: 8px 16px; background: #fed7d7; color: #742a2a; border: 2px solid #fc8181; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px;">
+                        ✕ Remove Second Consultant
+                    </button>
+                </div>
             </div>
+
+            <script>
+                function toggleSecondConsultant() {
+                    const wrapper = document.getElementById('secondConsultantWrapper');
+                    const btn = document.getElementById('addConsultantBtn');
+                    wrapper.style.display = 'block';
+                    btn.style.display = 'none';
+                }
+                
+                function removeSecondConsultant() {
+                    const wrapper = document.getElementById('secondConsultantWrapper');
+                    const btn = document.getElementById('addConsultantBtn');
+                    const select = document.getElementById('consultant2');
+                    select.value = '';
+                    wrapper.style.display = 'none';
+                    btn.style.display = 'inline-block';
+                }
+            </script>
 
             <!-- Question 2 -->
             <div class="question-group" data-question="2">
                 <label class="question-label">
                     <span class="question-number">2</span>
-                    The consultative service satisfied my request and met my expectations. <span class="required">*</span>
+                    The consultative service satisfied my request and met my expectations.
                 </label>
                 <div class="rating-options">
                     <div class="rating-option">
-                        <input type="radio" id="q2_strongly_agree" name="q2_satisfaction" value="Strongly Agree" required>
+                        <input type="radio" id="q2_strongly_agree" name="q2_satisfaction" value="Strongly Agree">
                         <label for="q2_strongly_agree" class="rating-label">Strongly Agree</label>
                     </div>
                     <div class="rating-option">
@@ -619,11 +691,11 @@
             <div class="question-group" data-question="3">
                 <label class="question-label">
                     <span class="question-number">3</span>
-                    The consultative service will help me improve my workplace safety and health program. <span class="required">*</span>
+                    The consultative service will help me improve my workplace safety and health program.
                 </label>
                 <div class="rating-options">
                     <div class="rating-option">
-                        <input type="radio" id="q3_strongly_agree" name="q3_improvement" value="Strongly Agree" required>
+                        <input type="radio" id="q3_strongly_agree" name="q3_improvement" value="Strongly Agree">
                         <label for="q3_strongly_agree" class="rating-label">Strongly Agree</label>
                     </div>
                     <div class="rating-option">
@@ -645,7 +717,7 @@
             <div class="question-group" data-question="4">
                 <label class="question-label">
                     <span class="question-number">4</span>
-                    What aspect of the service did you like best or find most helpful? <span class="required">*</span>
+                    What aspect of the service did you like best or find most helpful?
                 </label>
                 <p class="helper-text">Select all that apply</p>
                 <div class="checkbox-grid">
@@ -683,11 +755,11 @@
             <div class="question-group" data-question="5">
                 <label class="question-label">
                     <span class="question-number">5</span>
-                    The recommendations in the written report were clear and easy to understand. <span class="required">*</span>
+                    The recommendations in the written report were clear and easy to understand.
                 </label>
                 <div class="rating-options">
                     <div class="rating-option">
-                        <input type="radio" id="q5_strongly_agree" name="q5_clarity" value="Strongly Agree" required>
+                        <input type="radio" id="q5_strongly_agree" name="q5_clarity" value="Strongly Agree">
                         <label for="q5_strongly_agree" class="rating-label">Strongly Agree</label>
                     </div>
                     <div class="rating-option">
@@ -709,11 +781,11 @@
             <div class="question-group" data-question="6">
                 <label class="question-label">
                     <span class="question-number">6</span>
-                    The correction due dates were discussed by the Consultant and were agreed upon. <span class="required">*</span>
+                    The correction due dates were discussed by the Consultant and were agreed upon.
                 </label>
                 <div class="rating-options">
                     <div class="rating-option">
-                        <input type="radio" id="q6_strongly_agree" name="q6_duedates" value="Strongly Agree" required>
+                        <input type="radio" id="q6_strongly_agree" name="q6_duedates" value="Strongly Agree">
                         <label for="q6_strongly_agree" class="rating-label">Strongly Agree</label>
                     </div>
                     <div class="rating-option">
@@ -744,11 +816,11 @@
             <div class="question-group" data-question="8">
                 <label class="question-label">
                     <span class="question-number">8</span>
-                    Would you recommend the consultative service to other small employers? <span class="required">*</span>
+                    Would you recommend the consultative service to other small employers?
                 </label>
                 <div class="yes-no-toggle">
                     <div class="toggle-option">
-                        <input type="radio" id="recommend_yes" name="q8_recommend" value="Yes" required>
+                        <input type="radio" id="recommend_yes" name="q8_recommend" value="Yes">
                         <label for="recommend_yes" class="toggle-label">Yes</label>
                     </div>
                     <div class="toggle-option">
@@ -780,31 +852,31 @@
 
             <!-- Contact Information Section -->
             <div class="contact-section">
-                <h3>Your Contact Information</h3>
+                <h3>Your Contact Information (Optional)</h3>
                 
                 <div class="contact-field">
-                    <label for="contact_name">Your Name / Title <span class="required">*</span></label>
-                    <input type="text" id="contact_name" name="contact_name" placeholder="John Doe, Safety Manager" required>
+                    <label for="contact_name">Your Name / Title</label>
+                    <input type="text" id="contact_name" name="contact_name" placeholder="John Doe, Safety Manager">
                 </div>
 
                 <div class="contact-field">
-                    <label for="contact_phone">Phone Number <span class="required">*</span></label>
-                    <input type="tel" id="contact_phone" name="contact_phone" placeholder="(919) 555-0123" required>
+                    <label for="contact_phone">Phone Number</label>
+                    <input type="tel" id="contact_phone" name="contact_phone" placeholder="(919) 555-0123">
                 </div>
 
                 <div class="contact-field">
-                    <label for="contact_email">Email Address <span class="required">*</span></label>
-                    <input type="email" id="contact_email" name="contact_email" placeholder="your.email@company.com" required>
+                    <label for="contact_email">Email Address</label>
+                    <input type="email" id="contact_email" name="contact_email" placeholder="your.email@company.com">
                 </div>
 
                 <div class="contact-field">
-                    <label for="establishment_name">Your Establishment Name <span class="required">*</span></label>
-                    <input type="text" id="establishment_name" name="establishment_name" placeholder="ABC Manufacturing Company" required>
+                    <label for="establishment_name">Your Establishment Name</label>
+                    <input type="text" id="establishment_name" name="establishment_name" placeholder="ABC Manufacturing Company">
                 </div>
 
                 <div class="contact-field">
-                    <label for="establishment_address">Your Establishment Address <span class="required">*</span></label>
-                    <input type="text" id="establishment_address" name="establishment_address" placeholder="123 Main St, Charlotte, NC 28202" required>
+                    <label for="establishment_address">Your Establishment Address</label>
+                    <input type="text" id="establishment_address" name="establishment_address" placeholder="123 Main St, Charlotte, NC 28202">
                 </div>
             </div>
 
@@ -954,24 +1026,48 @@
             // Get selected consultant info
             const consultantSelect = document.getElementById('consultant');
             const consultantValue = consultantSelect.value;
-            const consultantData = consultantValue.split('|');
-            const consultantID = consultantData[0];
-            const consultantName = consultantData[1];
-            const consultantEmail = consultantData[2];
+            
+            let consultantID = '';
+            let consultantName = '';
+            let consultantEmail = '';
+            let consultant2ID = '';
+            let consultant2Name = '';
+            let consultant2Email = '';
+            
+            // Get first consultant if selected
+            if (consultantValue) {
+                const consultantData = consultantValue.split('|');
+                consultantID = consultantData[0];
+                consultantName = consultantData[1];
+                consultantEmail = consultantData[2];
+            }
+            
+            // Get second consultant if selected
+            const consultant2Select = document.getElementById('consultant2');
+            const consultant2Value = consultant2Select.value;
+            if (consultant2Value) {
+                const consultant2Data = consultant2Value.split('|');
+                consultant2ID = consultant2Data[0];
+                consultant2Name = consultant2Data[1];
+                consultant2Email = consultant2Data[2];
+            }
             
             // Collect form data
             const formData = {
                 consultant_id: consultantID,
                 consultant_name: consultantName,
                 consultant_email: consultantEmail,
-                q2_satisfaction: form.q2_satisfaction.value,
-                q3_improvement: form.q3_improvement.value,
-                q4_aspects: Array.from(form.querySelectorAll('input[name="q4_aspects"]:checked')).map(cb => cb.value).join(', '),
+                consultant2_id: consultant2ID,
+                consultant2_name: consultant2Name,
+                consultant2_email: consultant2Email,
+                q2_satisfaction: form.q2_satisfaction.value || '(No response)',
+                q3_improvement: form.q3_improvement.value || '(No response)',
+                q4_aspects: Array.from(form.querySelectorAll('input[name="q4_aspects"]:checked')).map(cb => cb.value).join(', ') || '(No response)',
                 q4_other: document.getElementById('q4_other_text').value,
-                q5_clarity: form.q5_clarity.value,
-                q6_duedates: form.q6_duedates.value,
+                q5_clarity: form.q5_clarity.value || '(No response)',
+                q6_duedates: form.q6_duedates.value || '(No response)',
                 q7_improvement: document.getElementById('q7_improvement').value,
-                q8_recommend: form.q8_recommend.value,
+                q8_recommend: form.q8_recommend.value || '(No response)',
                 q8_referral: document.getElementById('q8_referral').value,
                 q8_why_not: document.getElementById('q8_why_not').value,
                 q9_comments: document.getElementById('q9_comments').value,
@@ -986,28 +1082,139 @@
             // Create email body
             const emailBody = createEmailBody(formData);
             
-            // Create dynamic subject line with consultant ID
-            const dynamicSubject = `${EMAIL_SUBJECT} - ${consultantID}`;
+            // Create dynamic subject line with consultant ID(s)
+            let dynamicSubject = EMAIL_SUBJECT;
+            if (consultantID) {
+                dynamicSubject += ` - ${consultantID}`;
+                if (consultant2ID) {
+                    dynamicSubject += `, ${consultant2ID}`;
+                }
+            }
             
             // Create mailto link for central mailbox only
             const mailtoLink = `mailto:${MAIN_REVIEW_EMAIL}?subject=${encodeURIComponent(dynamicSubject)}&body=${encodeURIComponent(emailBody)}`;
             
-            // Open email draft
-            window.open(mailtoLink, '_blank');
+            // Try to open email client
+            const emailWindow = window.open(mailtoLink, '_blank');
             
-            // Show success message
-            successMsg.classList.add('show');
-            
-            // Re-enable button after a delay
+            // Check if mailto was blocked (Edge, some browsers)
             setTimeout(() => {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Another Survey';
+                // If window didn't open or was blocked, show instructions
+                if (!emailWindow || emailWindow.closed || typeof emailWindow.closed == 'undefined') {
+                    // Show fallback instructions
+                    showEmailInstructions(MAIN_REVIEW_EMAIL, dynamicSubject, emailBody);
+                } else {
+                    // Show success message
+                    successMsg.classList.add('show');
+                }
                 
-                // Optionally reset form
-                // form.reset();
-                // updateProgress();
-            }, 2000);
+                // Re-enable button after a delay
+                setTimeout(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit Another Survey';
+                    // When clicked again, reload the page for a fresh form
+                    submitBtn.onclick = function() {
+                        window.location.reload();
+                    };
+                }, 2000);
+            }, 1000);
         });
+
+        // Fallback function to show email instructions when mailto is blocked
+        function showEmailInstructions(toEmail, subject, body) {
+            // Hide the form
+            document.querySelector('.form-content').style.display = 'none';
+            document.querySelector('.progress-container').style.display = 'none';
+            
+            // Create instructions page
+            const instructionsHTML = `
+                <div style="padding: 40px 24px; max-width: 680px; margin: 0 auto;">
+                    <div style="background: #ebf8ff; border: 2px solid #3182ce; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
+                        <h2 style="color: #2c5282; margin-bottom: 20px; font-size: 24px;">📧 Almost Done!</h2>
+                        <p style="color: #2d3748; font-size: 16px; line-height: 1.6; margin-bottom: 20px;">
+                            Your browser blocked the automatic email. Please send your survey response manually by following these steps:
+                        </p>
+                        
+                        <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                            <h3 style="color: #2c5282; margin-bottom: 15px; font-size: 18px;">Step 1: Copy This Email Address</h3>
+                            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; border: 2px solid #e2e8f0;">
+                                <input type="text" id="emailToCopy" value="${toEmail}" readonly 
+                                    style="width: 100%; border: none; background: transparent; font-size: 16px; font-weight: bold; color: #2c5282;">
+                            </div>
+                            <button onclick="copyToClipboard('emailToCopy', this)" 
+                                style="margin-top: 10px; padding: 10px 20px; background: #3182ce; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                📋 Copy Email Address
+                            </button>
+                        </div>
+                        
+                        <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                            <h3 style="color: #2c5282; margin-bottom: 15px; font-size: 18px;">Step 2: Copy This Subject Line</h3>
+                            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; border: 2px solid #e2e8f0;">
+                                <input type="text" id="subjectToCopy" value="${subject}" readonly 
+                                    style="width: 100%; border: none; background: transparent; font-size: 14px; color: #2d3748;">
+                            </div>
+                            <button onclick="copyToClipboard('subjectToCopy', this)" 
+                                style="margin-top: 10px; padding: 10px 20px; background: #3182ce; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                📋 Copy Subject
+                            </button>
+                        </div>
+                        
+                        <div style="background: white; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                            <h3 style="color: #2c5282; margin-bottom: 15px; font-size: 18px;">Step 3: Copy Your Survey Responses</h3>
+                            <textarea id="bodyToCopy" readonly 
+                                style="width: 100%; min-height: 200px; padding: 15px; border: 2px solid #e2e8f0; border-radius: 8px; font-family: monospace; font-size: 13px; background: #f7fafc; color: #2d3748;">${body}</textarea>
+                            <button onclick="copyToClipboard('bodyToCopy', this)" 
+                                style="margin-top: 10px; padding: 10px 20px; background: #3182ce; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                📋 Copy Survey Responses
+                            </button>
+                        </div>
+                        
+                        <div style="background: #edf2f7; padding: 20px; border-radius: 8px; margin-top: 30px;">
+                            <h3 style="color: #2c5282; margin-bottom: 15px; font-size: 18px;">Step 4: Send the Email</h3>
+                            <ol style="color: #2d3748; line-height: 1.8; padding-left: 20px;">
+                                <li>Open your email program (Outlook, Gmail, etc.)</li>
+                                <li>Create a new email</li>
+                                <li>Paste the email address in the "To" field</li>
+                                <li>Paste the subject line in the "Subject" field</li>
+                                <li>Paste your survey responses in the message body</li>
+                                <li>Click Send!</li>
+                            </ol>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 30px;">
+                            <a href="mailto:${toEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}" 
+                                style="display: inline-block; padding: 15px 30px; background: #2c5282; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+                                🚀 Try Opening Email Again
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; color: #718096; font-size: 14px;">
+                        <p>Thank you for your feedback!</p>
+                    </div>
+                </div>
+            `;
+            
+            document.querySelector('.survey-container').innerHTML = instructionsHTML;
+        }
+
+        // Copy to clipboard function
+        window.copyToClipboard = function(elementId, button) {
+            const element = document.getElementById(elementId);
+            element.select();
+            element.setSelectionRange(0, 99999); // For mobile
+            document.execCommand('copy');
+            
+            // Change button text temporarily
+            const originalText = button.textContent;
+            button.textContent = '✓ Copied!';
+            button.style.background = '#10b981';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '#3182ce';
+            }, 2000);
+        };
 
         // Create formatted email body
         function createEmailBody(data) {
@@ -1017,8 +1224,18 @@
             body += `SUBMISSION DATE: ${data.submission_date}\n\n`;
             
             body += `CONSULTANT INFORMATION:\n`;
-            body += `Consultant: ${data.consultant_name} (${data.consultant_id})\n`;
-            body += `Email: ${data.consultant_email}\n\n`;
+            if (data.consultant_name) {
+                body += `Consultant: ${data.consultant_name} (${data.consultant_id})\n`;
+                body += `Email: ${data.consultant_email}\n`;
+            } else {
+                body += `Consultant: (Not specified)\n`;
+            }
+            
+            if (data.consultant2_name) {
+                body += `Second Consultant: ${data.consultant2_name} (${data.consultant2_id})\n`;
+                body += `Email: ${data.consultant2_email}\n`;
+            }
+            body += `\n`;
             
             body += `${'='.repeat(60)}\n\n`;
             
@@ -1060,11 +1277,11 @@
             body += `${'='.repeat(60)}\n\n`;
             
             body += `CUSTOMER CONTACT INFORMATION:\n\n`;
-            body += `Name/Title: ${data.contact_name}\n`;
-            body += `Phone: ${data.contact_phone}\n`;
-            body += `Email: ${data.contact_email}\n`;
-            body += `Establishment: ${data.establishment_name}\n`;
-            body += `Address: ${data.establishment_address}\n`;
+            body += `Name/Title: ${data.contact_name || '(Not provided)'}\n`;
+            body += `Phone: ${data.contact_phone || '(Not provided)'}\n`;
+            body += `Email: ${data.contact_email || '(Not provided)'}\n`;
+            body += `Establishment: ${data.establishment_name || '(Not provided)'}\n`;
+            body += `Address: ${data.establishment_address || '(Not provided)'}\n`;
             
             return body;
         }
